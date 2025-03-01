@@ -1,125 +1,661 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ title }}</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            padding: 20px;
-        }
-        .container { margin-top: 30px; }
-        h1 { color: #333; }
-        .package { 
-            border: 1px solid #ddd; 
-            padding: 15px; 
-            margin-bottom: 15px; 
-            border-radius: 4px;
-        }
-        .score-high { color: green; }
-        .score-medium { color: orange; }
-        .score-low { color: red; }
-    </style>
-</head>
-<body>
-    <h1>Repository Security Analyzer</h1>
-    <p>This tool analyzes GitHub repositories for security vulnerabilities and reputation.</p>
-    
-    <div class="container">
-        <h2>Recent Repositories</h2>
-        
-        {% for package in packages %}
-        <div class="package">
-            <h3><a href="/{{ package.repo }}">{{ package.repo }}</a></h3>
-            <p>By: {{ package.github_user }}</p>
-            <p>GitHub: <a href="{{ package.githuburl }}">{{ package.githuburl }}</a></p>
-        </div>
-        {% else %}
-        <p>No repositories analyzed yet.</p>
-        {% endfor %}
-    </div>
-</body>
-</html>
-
-<!-- package.html -->
-<!DOCTYPE html>
-<html>
-<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ package_name }} - Security Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            padding: 20px;
+        :root {
+            --pypi-blue: #0072b5;
+            --pypi-dark-blue: #005c91;
+            --pypi-link: #0073b7;
+            --pypi-background: #f6f8fa;
+            --pypi-border: #e1e4e8;
+            --pypi-success: #3fa75f;
+            --pypi-warning: #f09d13;
+            --pypi-danger: #e05d44;
         }
-        .header { margin-bottom: 30px; }
-        .score-container { 
-            display: flex; 
-            align-items: center; 
-            margin: 20px 0;
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .score { 
-            font-size: 36px; 
-            font-weight: bold; 
+        
+        body {
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pypi-background);
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        /* PyPI header */
+        .site-header {
+            background-color: var(--pypi-blue);
+            color: white;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--pypi-dark-blue);
+        }
+        
+        .site-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .site-header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .site-logo {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .site-logo img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .search-container {
+            margin-left: 40px;
+            position: relative;
+            width: 500px;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        .search-container button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+        }
+        
+        .site-header-right {
+            display: flex;
+        }
+        
+        .site-nav {
+            list-style: none;
+            display: flex;
+        }
+        
+        .site-nav li {
+            margin-left: 20px;
+        }
+        
+        .site-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Main content area */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Package title section */
+        .package-title-section {
+            margin-bottom: 20px;
+            background-color: var(--pypi-blue);
+            color: white;
+            padding: 20px 0;
+        }
+
+        .package-title-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .package-title-container h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .package-command {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-family: monospace;
+            color: white;
+        }
+
+        .copy-btn {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .version-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .version-badge {
+            display: inline-flex;
+            overflow: hidden;
+            border-radius: 4px;
+            margin-left: auto;
+        }
+
+        .version-check {
+            background-color: #2e7d32;
+            color: white;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .version-text {
+            background-color: #388e3c;
+            color: white;
+            padding: 8px 15px;
+        }
+
+        .release-date {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Package details */
+        .package-header {
+            background-color: white;
+            border: 1px solid var(--pypi-border);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-top: 15px;
+            color: #555;
+        }
+        
+        .package-meta {
+            margin-bottom: 10px;
+            color: #666;
+            text-align: left;
+        }
+        
+        .package-meta a {
+            color: var(--pypi-link);
+            text-decoration: none;
+        }
+        
+        .package-meta a:hover {
+            text-decoration: underline;
+        }
+        
+        .package-meta code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Score display */
+        .score-container {
+            background-color: white;
+            border: 1px solid var(--pypi-border);
+            border-radius: 4px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+        }
+        
+        .score-container h2 {
+            font-size: 1.5rem;
+            color: var(--pypi-dark-blue);
+            margin: 0 0 15px 0;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--pypi-border);
+        }
+        
+        .score-display {
+            display: flex;
+            align-items: center;
+        }
+        
+        .score-circle {
             width: 80px;
             height: 80px;
-            line-height: 80px;
-            text-align: center;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
             margin-right: 20px;
         }
-        .score-high { 
-            background-color: #d4edda; 
-            color: #155724; 
+        
+        .score-high {
+            background-color: var(--pypi-success);
+            color: white;
         }
-        .score-medium { 
-            background-color: #fff3cd; 
-            color: #856404; 
+        
+        .score-medium {
+            background-color: var(--pypi-warning);
+            color: white;
         }
-        .score-low { 
-            background-color: #f8d7da; 
-            color: #721c24; 
+        
+        .score-low {
+            background-color: var(--pypi-danger);
+            color: white;
         }
-        .details { margin-top: 20px; }
+        
+        .score-description {
+            flex: 1;
+        }
+        
+        .score-description h3 {
+            font-size: 1.2rem;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        
+        /* Security report */
         .security-issues {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
+            background-color: white;
+            border: 1px solid var(--pypi-border);
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        
+        .security-issues-header {
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--pypi-border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .security-issues-header h2 {
+            font-size: 1.5rem;
+            color: var(--pypi-dark-blue);
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .security-issues-content {
+            padding: 20px 30px;
+            display: none; /* Initially hidden */
+        }
+        
+        .security-high {
+            color: var(--pypi-danger);
+            font-weight: bold;
+        }
+        
+        .security-medium {
+            color: var(--pypi-warning);
+            font-weight: bold;
+        }
+        
+        .security-low {
+            color: #6c757d;
+        }
+        
+        /* README */
+        .readme {
+            background-color: white;
+            border: 1px solid var(--pypi-border);
             border-radius: 4px;
         }
-        .security-high { color: red; }
-        .security-medium { color: orange; }
-        .security-low { color: yellow; }
-        .readme {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
+        
+        .readme-header {
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--pypi-border);
+        }
+        
+        .readme-header h2 {
+            font-size: 1.5rem;
+            color: var(--pypi-dark-blue);
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .readme-content {
+            padding: 20px 30px;
+        }
+        
+        /* Navigation sidebar */
+        .page-layout {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .nav-section {
+            background-color: white;
+            border: 1px solid var(--pypi-border);
             border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-section h3 {
+            font-size: 1.2rem;
+            padding: 15px;
+            margin: 0;
+            border-bottom: 1px solid var(--pypi-border);
+        }
+        
+        .nav-list {
+            list-style: none;
+        }
+        
+        .nav-list li {
+            border-bottom: 1px solid var(--pypi-border);
+        }
+        
+        .nav-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .nav-list a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--pypi-link);
+            text-decoration: none;
+        }
+        
+        .nav-list a:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .nav-list a.active {
+            background-color: #e9f4fe;
+            color: var(--pypi-blue);
+            font-weight: 500;
+        }
+        
+        .nav-list a i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            margin: 30px 0;
+            color: var(--pypi-link);
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .back-link i {
+            margin-right: 5px;
+        }
+        
+        /* Project description section */
+        .project-description {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--pypi-border);
+        }
+        
+        .project-description h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background-color: white;
+            border-top: 1px solid var(--pypi-border);
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .package-image {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .site-header-content {
+                flex-direction: column;
+            }
+            
+            .site-nav {
+                margin-top: 15px;
+            }
+            
+            .content-wrapper {
+                padding: 20px 15px;
+            }
+            
+            .package-header, .score-container, .security-issues-content, .readme-content {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+            
+            .page-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>{{ package_name }}</h1>
-        <p>By: {{ username }} &lt;{{ email }}&gt;</p>
-        <p>GitHub: <a href="{{ gitUrl }}">{{ gitUrl }}</a></p>
-        <p>Commit: <code>{{ repoHash }}</code></p>
-        <p>Reputation score out of 100: <code>{{ score }}</code></p>
-    </div>
-    
+    <header class="site-header">
+        <div class="site-header-content">
+            <div class="site-header-left">
+                <div class="site-logo">
+                    <img src="spip.jpg" alt="SPIP Logo">
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="Search projects">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="site-header-right">
+                <ul class="site-nav">
+                    <li><i class="fa-brands fa-github"></i> <a href="#">GitHub</a></i></li>
+                    <li><i class="fa-solid fa-file"></i> <a href="#">Docs</a></li>
 
+                </ul>
+            </div>
+        </div>
+    </header>
     
-    <div class="security-issues">
-        <h2>Bandit report</h2>
-       <p>{{banditReport | safe}}</p>
+    <div class="package-title-section">
+        <div class="package-title-container">
+            <h1>{{ package_name }}</h1>
+            <div class="package-command">
+                spip install {{ package_name }}
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+            </div>
+            <div class="version-info">
+                <span class="release-date">Released: <span id="release-date">Feb 15, 2025</span></span>
+                <div class="version-badge">
+                    <div class="version-check"><i class="fas fa-check"></i></div>
+                    <div class="version-text">Latest version</div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="readme">
-        <h2>README</h2>
-        {{ readme|safe }}
+    <div class="content-wrapper">
+        <div class="page-layout">
+            <div class="sidebar">
+                <div class="nav-section">
+                    <h3>Navigation</h3>
+                    <ul class="nav-list">
+    
+                        <li><a href="#"><i class="fas fa-history"></i> Release history</a></li>
+                        <li><a href="#"><i class="fa-solid fa-house"></i> Home Page</a></li>
+                    </ul>
+                </div>
+                
+                <div class="score-container">
+                    <h2>Reputation Score</h2>
+                    <div class="score-display">
+                        {% set score_class = 'score-high' if score >= 75 else ('score-medium' if score >= 50 else 'score-low') %}
+                        <div class="score-circle {{ score_class }}">{{ score }}</div>
+                        <div class="score-description">
+                            <h3>
+                                {% if score >= 75 %}
+                                    High Security Rating
+                                {% elif score >= 50 %}
+                                    Moderate Security Rating
+                                {% else %}
+                                    Low Security Rating
+                                {% endif %}
+                            </h3>
+                            <p>
+                                {% if score >= 75 %}
+                                    This repository has passed security checks with minimal issues.
+                                {% elif score >= 50 %}
+                                    This repository has some security concerns that should be reviewed.
+                                {% else %}
+                                    This repository has significant security issues that need to be addressed.
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="package-header">
+                    <div class="package-meta">
+                        <p><strong>Author:</strong> {{ username }} &lt;{{ email }}&gt;</p>
+                    </div>
+                    <div class="package-meta">
+                        <p><strong>GitHub:</strong> <a href="{{ gitUrl }}" target="_blank">{{ gitUrl }}</a></p>
+                    </div>
+                    <div class="package-meta">
+                        <p><strong>Commit:</strong> <code>{{ repoHash }}</code></p>
+                    </div>
+                    
+        
+                    
+                </div>
+                
+                <div class="security-issues">
+                    <div class="security-issues-header" id="security-toggle">
+                        <h2>Bandit Security Report</h2>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="security-issues-content" id="security-content">
+                        {{ banditReport | safe }}
+                    </div>
+                </div>
+                
+
+                
+                <div class="readme">
+                    <div class="readme-header">
+                        <h2>README</h2>
+                    </div>
+                    <div class="readme-content">
+                        {{ readme|safe }}
+                    </div>
+                </div>
+                
+                <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Repository List</a>
+            </div>
+        </div>
     </div>
+    
+    <footer class="site-footer">
+        <p>spip - A tool for safer python installations</p>
+    </footer>
+    
+    <script>
+        // Script to make the security report collapsible
+        document.addEventListener('DOMContentLoaded', function() {
+            const securityToggle = document.getElementById('security-toggle');
+            const securityContent = document.getElementById('security-content');
+            
+            securityToggle.addEventListener('click', function() {
+                if (securityContent.style.display === 'block') {
+                    securityContent.style.display = 'none';
+                    securityToggle.querySelector('i').className = 'fas fa-chevron-down';
+                } else {
+                    securityContent.style.display = 'block';
+                    securityToggle.querySelector('i').className = 'fas fa-chevron-up';
+                }
+            });
+            
+            // Copy button functionality
+            const copyBtn = document.querySelector('.copy-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const command = this.parentElement.textContent.trim().split('\n')[0];
+                    navigator.clipboard.writeText(command);
+                    
+                    // Visual feedback
+                    const icon = this.querySelector('i');
+                    icon.className = 'fas fa-check';
+                    setTimeout(() => {
+                        icon.className = 'far fa-copy';
+                    }, 2000);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
