@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repository Dashboard - SPIP</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            line-height: 1.5;
+            background-color: #f6f8fa;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: #2b5b84;
+            color: white;
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo svg {
+            margin-right: 10px;
+        }
+        
+        .search-bar {
+            background-color: white;
+            border-radius: 3px;
+            padding: 5px 10px;
+            width: 400px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-bar input {
+            border: none;
+            flex-grow: 1;
+            padding: 8px;
+            font-size: 14px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Project header */
+        .project-header {
+            background-color: #3775a9;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .project-title-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .project-title {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        .project-version {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Main content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 250px;
+            margin-right: 30px;
+        }
+        
+        .sidebar-box {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: white;
+        }
+        
+        .sidebar-box-title {
+            background-color: #f2f2f2;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .sidebar-box-content {
+            padding: 15px;
+        }
+        
+        .content {
+            flex-grow: 1;
+        }
+        
+        .content-box {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        
+        .content-box-title {
+            background-color: #f2f2f2;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .content-box-body {
+            padding: 20px;
+        }
+        
+        .installation-command {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #f2f2f2;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .footer-section {
+            margin-right: 40px;
+        }
+        
+        .footer-section h3 {
+            margin-top: 0;
+            color: #3775a9;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section a {
+            color: #3775a9;
+            text-decoration: none;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .big-logo {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .big-logo svg {
+            width: 150px;
+            height: 150px;
+        }
+
+        .big-logo p {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Security report section */
+        .security-report {
+            margin-top: 20px;
+        }
+        
+        .security-score {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .score-meter {
+            width: 100%;
+            height: 8px;
+            background-color: #e1e4e8;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .score-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .bandit-report {
+            margin-top: 16px;
+        }
+        
+        .bandit-high, .bandit-medium, .bandit-low {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .bandit-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .bandit-high .bandit-indicator {
+            background-color: #d73a49;
+        }
+        
+        .bandit-medium .bandit-indicator {
+            background-color: #e3b341;
+        }
+        
+        .bandit-low .bandit-indicator {
+            background-color: #2da44e;
+        }
+        
+        .repo-info {
+            margin-bottom: 12px;
+        }
+        
+        .label {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .value {
+            word-break: break-all;
+            margin-bottom: 12px;
+        }
+        
+        .commit-hash {
+            font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+            background-color: #f6f8fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .git-url {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        
+        .git-url:hover {
+            text-decoration: underline;
+        }
+        
+        .readme-content {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                SPIP
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search packages" id="search-input">
+            </div>
+            <div class="nav-links">
+                <a href="#">Help</a>
+                <a href="#">Log in</a>
+                <a href="#">Register</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="project-header">
+        <div class="project-title-container">
+            <h1 class="project-title" id="package-name">{{ package_name }}</h1>
+            <div class="project-version" id="version">0.1.0</div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="sidebar-box">
+                <div class="sidebar-box-title">GitHub Information</div>
+                <div class="sidebar-box-content">
+                    <div class="label">Author:</div>
+                    <div class="value" id="username">{{ username }}</div>
+                    
+                    <div class="label">Email:</div>
+                    <div class="value" id="email">{{ email }}</div>
+                    
+                    <div class="label">GitHub URL:</div>
+                    <div class="value"><a class="git-url" id="git-url" href="{{ gitUrl }}" target="_blank">{{ gitUrl }}</a></div>
+                </div>
+            </div>
+            
+            {% set score_color = (
+                '#2da44e' if githubReputationScore >= 80 else
+                '#1a7f37' if githubReputationScore >= 60 else
+                '#e3b341' if githubReputationScore >= 40 else
+                '#d73a49'
+            ) %}
+            
+            <div class="sidebar-box">
+                <div class="sidebar-box-title">Security Report</div>
+                <div class="sidebar-box-content">
+                    <div class="security-score" id="reputation-score">{{ githubReputationScore }}</div>
+                    <div class="score-meter">
+                        <div class="score-fill" id="score-fill" style="width: {{ githubReputationScore }}%; background-color: {{ score_color }};">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                    <div id="score-label">
+                        {% if githubReputationScore >= 80 %}Excellent standing
+                        {% elif githubReputationScore >= 60 %}Good standing
+                        {% elif githubReputationScore >= 40 %}Fair standing
+                        {% else %}Poor standing
+                        {% endif %}
+                    </div>
+                    
+                    <div class="bandit-report">
+                        <div class="bandit-high">
+                            <div class="bandit-indicator"></div>
+                            <span>High: <span id="bandit-high">{{ banditReport.high }}</span></span>
+                        </div>
+                        <div class="bandit-medium">
+                            <div class="bandit-indicator"></div>
+                            <span>Medium: <span id="bandit-medium">{{ banditReport.medium }}</span></span>
+                        </div>
+                        <div class="bandit-low">
+                            <div class="bandit-indicator"></div>
+                            <span>Low: <span id="bandit-low">{{ banditReport.low }}</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="content-box">
+                <div class="content-box-title">Package Information</div>
+                <div class="content-box-body">
+                    <div class="installation-command" id="installation-command">pip install {{ package_name }}</div>
+                    
+                    <div class="repo-info">
+                        <div class="label">Latest Commit Hash:</div>
+                        <div class="value"><span class="commit-hash" id="commit-hash">{{ commitHash }}</span></div>
+                        
+                        <div class="label">Repository Hash:</div>
+                        <div class="value"><span class="commit-hash" id="repo-hash">{{ repoHash }}</span></div>
+                    </div>
+                    
+                    <div class="readme-content" id="readme-content">
+                        <pre>{{ readme }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Getting Started</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>About SPIP</h3>
+                <ul>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Security Focus</a></li>
+                    <li><a href="#">Compared to PyPI</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contributing</h3>
+                <ul>
+                    <li><a href="#">Submit a Package</a></li>
+                    <li><a href="#">Contribute to SPIP</a></li>
+                    <li><a href="#">Report Issues</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Security Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2025 SPIP Secure Package Repository</p>
+        </div>
+    </footer>
+</body>
+</html>
