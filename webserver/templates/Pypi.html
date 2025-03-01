@@ -1,1 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spip · The Secure Python Package Repository</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            line-height: 1.5;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: #2b5b84;
+            color: white;
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
 
+        .logo img {
+            margin-right: 10px;
+            height: 24px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Main content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .about-section {
+            margin-bottom: 40px;
+        }
+        
+        .about-section h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #3775a9;
+            display: flex;
+            align-items: center;
+        }
+        
+        .about-section h1 span {
+            margin-left: 10px;
+        }
+
+        .about-section h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #3775a9;
+        }
+        
+        .about-section p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .about-section ul {
+            margin-bottom: 20px;
+        }
+        
+        .about-section li {
+            margin-bottom: 10px;
+        }
+        
+        .installation-command {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #f2f2f2;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .logo-image {
+            width: 100px;
+            height: auto;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="spip.jpg" alt="SPIP Logo">
+                SPIP
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <div class="about-section">
+            <h1><img src="spip.jpg" alt="SPIP Shield Logo" class="logo-image"> <span>Spip: Secure Python Package Repository</span></h1>
+            
+            <p>A secure pip alternative that guarantees safety and usability of your projects dependencies and python modules.</p>
+            
+            <div class="installation-command">pip install spip</div>
+            
+            <h2>🛡🐍 What</h2>
+            <p>Spip is a secure pip alternative that guarantees safety and usability of your projects dependencies and python modules.</p>
+            
+            <h2>😕 What</h2>
+            <p>The python community's most beloved tool pip is a software marvel, making it possible for anyone to share and import python code into their own project.</p>
+            
+            <p>However this comes with inherent security concerns (this comes with the ability to run foreign code on your own system).</p>
+            
+            <p>Many such cases have been reported where malicious actors have uploaded insecure code to the Python Packaging Index.</p>
+            
+            <h2>Some Reports:</h2>
+            <ul>
+                <li><a href="https://orca.security/resources/blog/python-supply-chain-attack-ctx-phpass/">Python Supply Chain Attack: ctx-phpass</a></li>
+                <li><a href="https://www.techtarget.com/searchsecurity/news/366577455/Typosquatting-campaign-malicious-packages-slam-PyPi">Typosquatting campaign malicious packages slam PyPi</a></li>
+                <li><a href="https://medium.com/@bertusk/cryptocurrency-clipboard-hijacker-discovered-in-pypi-repository-b66b8a534a8">Cryptocurrency clipboard hijacker discovered in PyPi repository</a></li>
+            </ul>
+            
+            <p>And since the PyPi repo is unchecked and deletes these malicious reports only when there are enough reports, python code security becomes a critical issue.</p>
+            
+            <h2>🤨 What</h2>
+            <p>spip (secure pip) aims to change this with static code checks for common code vulnerabilities and assures you the security of the package you're about to download.</p>
+            
+            <h2>How It Works</h2>
+            <p>Spip performs security analysis on Python packages before installation:</p>
+            <ul>
+                <li>Static code analysis using security tools</li>
+                <li>GitHub repository reputation checking</li>
+                <li>Vulnerability scanning</li>
+                <li>Package integrity verification</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="copyright">
+            <p>© 2024 SPIP Package Repository</p>
+        </div>
+    </footer>
+</body>
+</html>
