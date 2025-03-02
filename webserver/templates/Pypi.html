@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>spip · The Secure Python Package Repository</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Global styles */
         body {
@@ -123,33 +124,50 @@
             height: auto;
             margin-right: 15px;
         }
+
+        .site-nav {
+            list-style: none;
+            display: flex;
+        }
+        
+        .site-nav li {
+            margin-left: 20px;
+        }
+        
+        .site-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
             <div class="logo">
-                <img src="spip.jpg" alt="SPIP Logo">
+                <img src="static/logo.png" alt="SPIP Logo" style="height: 50px;">
                 SPIP
             </div>
             <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
+                <ul class="site-nav">
+                    <li><i class="fa-brands fa-github"></i> <a href="https://github.com/Suravi021/spip">GitHub</a></i></li>
+                    <li><i class="fa-solid fa-file"></i> <a href="#">Docs</a></li>
+
+                </ul>
             </div>
         </div>
     </header>
     
     <div class="main-content">
         <div class="about-section">
-            <h1><img src="spip.jpg" alt="SPIP Shield Logo" class="logo-image"> <span>Spip: Secure Python Package Repository</span></h1>
+            <h1><img src="static/logo.png" alt="SPIP Shield Logo" class="logo-image"> <span>Spip: Secure Python Package Repository</span></h1>
             
             <p>A secure pip alternative that guarantees safety and usability of your projects dependencies and python modules.</p>
             
-            <div class="installation-command">pip install spip</div>
+            <div class="installation-command">git clone https://github.com/Suravi021/spip.git<br> cd spip<br> pip install -e</div>
             
-            <h2>🛡🐍 What</h2>
-            <p>Spip is a secure pip alternative that guarantees safety and usability of your projects dependencies and python modules.</p>
+            <h2>🛡🐍 spip</h2>
+            <p>spip is a secure pip alternative that guarantees safety and usability of your projects dependencies and python modules.</p>
             
             <h2>😕 What</h2>
             <p>The python community's most beloved tool pip is a software marvel, making it possible for anyone to share and import python code into their own project.</p>
@@ -167,7 +185,7 @@
             
             <p>And since the PyPi repo is unchecked and deletes these malicious reports only when there are enough reports, python code security becomes a critical issue.</p>
             
-            <h2>🤨 What</h2>
+            <h2>🤨 How</h2>
             <p>spip (secure pip) aims to change this with static code checks for common code vulnerabilities and assures you the security of the package you're about to download.</p>
             
             <h2>How It Works</h2>
