@@ -75,7 +75,7 @@ The web server component provides:
 - Security reports and reputation scores
 - API endpoints for SPIP and Novatwine
 
-![Web Interface](/api/placeholder/700/400)
+![Web Interface](https://raw.githubusercontent.com/Suravi021/spip/refs/heads/main/webserver/static/webui.png)
 
 #### Web Interface Features
 
