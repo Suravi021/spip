@@ -12,6 +12,10 @@ def home():
     packages = db.all()
     return render_template("Pypi.html", title="Repository Security Analysis", packages=packages)
 
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')
+
 @app.route("/receive", methods=["POST"])
 def receive_data():
     """Endpoint to receive data from the client script"""
