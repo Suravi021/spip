@@ -1,0 +1,9 @@
+flask 
+tinydb
+click
+toml
+subprocess
+requests
+hashlib
+markdown2
+pathlib
