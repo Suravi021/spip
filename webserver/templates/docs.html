@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIP and Novatwine Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: #4e4d4d;
+            color:#ddd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .command {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4d7cc7;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .diagram {
+            max-width: 100%;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px auto;
+        }
+        .config-file {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .webui-preview {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            
+            color: #2c3e50;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .copy-button {
+            background-color: #f2f2f2;
+            border: none;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SPIP and Novatwine Documentation</h1>
+        <p>A secure Python package management ecosystem</p>
+    </header>
+    
+    <p>Welcome to the official documentation for the SPIP and Novatwine ecosystem. This integrated platform provides a secure alternative to the traditional Python package management system.</p>
+
+    <div class="note">
+        <strong>Note:</strong> This is an ongoing project focused on security within the Python ecosystem. Currently, only basic package installation and uploading functionality is supported.
+    </div>
+
+    <h2>Overview</h2>
+    
+    <p>The SPIP and Novatwine ecosystem consists of several components working together to provide a secure pipeline for Python package creation, distribution, and installation:</p>
+    
+    <ul>
+        <li><strong>SPIP</strong>: A secure alternative to pip, allowing users to safely install packages that have passed security verification.</li>
+        <li><strong>Novatwine</strong>: A package upload and security analysis system that evaluates package safety.</li>
+        <li><strong>SPyPi Webserver</strong>: The central repository server that hosts packages with security analysis information.</li>
+    </ul>
+
+    <h2>System Architecture</h2>
+    
+    <p>The diagram below illustrates the workflow and interaction between the different components:</p>
+    
+    <div class="diagram">
+        <img src="static/flow.png" alt="SPIP and Novatwine Architecture Diagram" style="width:100%;">
+        <p><em>Architecture diagram showing the flow between SPyPi webserver, SPIP, Novatwine, and security analysis components.</em></p>
+    </div>
+
+    <p>The system works as follows:</p>
+    
+    <ol>
+        <li>Package maintainers build packages securely on their local machines.</li>
+        <li>Packages are uploaded using Novatwine to the SPyPi servers.</li>
+        <li>Novatwine performs static security analysis using Bandit and assigns a reputation score.</li>
+        <li>All packages are uploaded to SPyPi servers with their security scores.</li>
+        <li>Users can view security reports and reputation scores via the web interface.</li>
+        <li>Users can then install packages using SPIP, which clones the specific commit verified during upload.</li>
+    </ol>
+
+    <h2>SPIP: Secure Package Installer for Python</h2>
+    
+    <h3>Installation</h3>
+    
+    <p>Installation instructions for SPIP will be added in future documentation updates.</p>
+
+    <h3>Basic Usage</h3>
+    
+    <p>Currently, SPIP supports the following command:</p>
+    
+    <div class="command">
+        <code>spip install &lt;package_name&gt;</code>
+        <button class="copy-button">Copy</button>
+    </div>
+    
+    <p>This command will:</p>
+    <ol>
+        <li>Connect to the SPyPi webserver</li>
+        <li>Git clone the repository at the specific commit that was uploaded and analyzed</li>
+        <li>Build and install the package on your system</li>
+    </ol>
+
+    <div class="note">
+        <strong>Security Benefit:</strong> SPIP ensures you're getting the exact code that was analyzed, eliminating the risk of post-analysis malicious modifications.
+    </div>
+
+    <h3>Examples</h3>
+    
+    <pre><code>spip install pyautogui</code></pre>
+
+    <h2>Novatwine: Package Analysis System</h2>
+    
+    <h3>Installation</h3>
+    
+    <p>Installation instructions for Novatwine will be added in future documentation updates.</p>
+
+    <h3>Configuration</h3>
+    
+    <p>Novatwine requires a TOML configuration file (typically named <code>nt.toml</code>) with the following structure:</p>
+    
+    <div class="config-file">
+        <pre><code>[personal]
+username = 'asweigart'
+email = 'maintaineremail@mail.com'
+github = 'https://github.com/asweigart/pyautogui'
+description_path = 'README.md'
+directory_path = 'pyautogui'</code></pre>
+    </div>
+    
+    <p>Configuration parameters:</p>
+    <ul>
+        <li><code>username</code>: GitHub username of the package maintainer</li>
+        <li><code>email</code>: Email address of the maintainer</li>
+        <li><code>github</code>: URL to the GitHub repository</li>
+        <li><code>description_path</code>: Path to the README file</li>
+        <li><code>directory_path</code>: Directory containing the package</li>
+    </ul>
+
+    <h3>Basic Usage</h3>
+    
+    <p>Currently, Novatwine supports the following command:</p>
+    
+    <div class="command">
+        <code>py -m nova_twine upload -c nt.toml</code>
+        <button class="copy-button">Copy</button>
+    </div>
+    
+    <p>This command will:</p>
+    <ol>
+        <li>Read the configuration from the specified TOML file</li>
+        <li>Upload your package to the SPyPi servers</li>
+        <li>Perform static code analysis using Bandit</li>
+        <li>Calculate a reputation score based on GitHub metrics (stars, issues, etc.)</li>
+        <li>Make the package available with its security report</li>
+    </ol>
+
+    <h3>Security Analysis & Reputation System</h3>
+    
+    <p>Instead of outright rejection, the system uses a reputation scoring approach:</p>
+    
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Static Analysis</td>
+            <td>Uses Bandit to perform static security analysis of the code, identifying potential vulnerabilities.</td>
+        </tr>
+        <tr>
+            <td>GitHub Metrics</td>
+            <td>Evaluates repository quality based on stars, open issues, and other GitHub metrics.</td>
+        </tr>
+        <tr>
+            <td>Reputation Score</td>
+            <td>Combines analysis results into a numerical score (0-100) indicating package security and quality.</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <strong>Note:</strong> Packages with low scores are still available, but users can make informed decisions based on the security reports and scores.
+    </div>
+
+    <h2>Web Interface</h2>
+    
+    <p>SPyPi provides a web interface for users to explore packages and their security information:</p>
+    
+    
+
+    <p>The web interface provides:</p>
+    <ul>
+        <li>Package information and installation command</li>
+        <li>Author and repository details</li>
+        <li>Static analysis security report</li>
+        <li>README content</li>
+        <li>Reputation score with visual indicator</li>
+    </ul>
+    <img src="static/webui.png" alt="WebUI image" style="width:100%;">
+    <h2>Future Development</h2>
+    
+    <p>The SPIP and Novatwine ecosystem is under active development. Upcoming features include:</p>
+    
+    <ul>
+        <li>Dynamic analysis for more comprehensive security evaluation</li>
+        <li>Additional SPIP commands for package management</li>
+        <li>Enhanced reputation scoring algorithms</li>
+        <li>Dependency resolution with security verification</li>
+        <li>Improved web interface with more detailed metrics</li>
+    </ul>
+
+    <h2>Contributing</h2>
+    
+    <p>Information on how to contribute to the project will be provided in future documentation updates.</p>
+
+    <h2>Support</h2>
+    
+    <p>For support inquiries and issue reporting, please check back for updated contact information in future documentation releases.</p>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #777;">
+        <p>SPIP and Novatwine Documentation &copy; 2025</p>
+    </footer>
+</body>
+</html>
